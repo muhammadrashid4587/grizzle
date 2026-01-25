@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths: ["grizzle/**"]
+  pull_request:
+    paths: ["grizzle/**"]
+
+defaults:
+  run:
+    working-directory: grizzle
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ["1.21", "1.22"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache-dependency-path: grizzle/go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run tests
+        run: go test ./... -v
+
+      - name: Run vet
+        run: go vet ./...
+
+      - name: Run benchmarks
+        run: go test -bench=. -benchmem ./query/ ./expr/ 2>&1 | head -100
