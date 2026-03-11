@@ -116,9 +116,9 @@ func mySQLColumns(ctx context.Context, db *sql.DB, dbName string, snap LiveSnaps
 	for rows.Next() {
 		var (
 			tableName, colName, dataType, colType string
-			isNullable                             string
-			colDefault                             sql.NullString
-			colKey, extra                          string
+			isNullable                            string
+			colDefault                            sql.NullString
+			colKey, extra                         string
 		)
 		if err := rows.Scan(&tableName, &colName, &dataType, &colType,
 			&isNullable, &colDefault, &colKey, &extra); err != nil {
@@ -314,4 +314,3 @@ func normalizeMySQLType(dataType, colType string) string {
 		return strings.ToLower(dataType)
 	}
 }
-

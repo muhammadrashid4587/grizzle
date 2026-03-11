@@ -21,10 +21,10 @@ type SelectBuilder struct {
 	orderBy   []expr.OrderExpr
 	groupBy   []expr.SelectableColumn
 	having    expr.Expression
-	limit     int    // 0 = no limit
-	offset    int    // 0 = no offset
-	forUpdate bool   // append FOR UPDATE
-	forShare  bool   // append FOR SHARE
+	limit     int  // 0 = no limit
+	offset    int  // 0 = no offset
+	forUpdate bool // append FOR UPDATE
+	forShare  bool // append FOR SHARE
 }
 
 // cteClause holds a single WITH name AS (...) entry.

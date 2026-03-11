@@ -96,6 +96,7 @@ func (b *colBuilder) setPrimaryKey() {
 	b.def.NotNull = true    // PK is implicitly NOT NULL
 	b.def.HasDefault = true // PK usually has a default (serial/uuid)
 }
+
 // build finalises the column definition, injecting the column name from the map key.
 func (b *colBuilder) build(name string) ColumnDef {
 	if b.def.Name == "" {

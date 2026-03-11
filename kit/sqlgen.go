@@ -187,7 +187,7 @@ func createTableSQL(t *pg.TableDef) string {
 				fk += " ON UPDATE " + string(c.FKOnUpdate)
 			}
 			parts = append(parts, fk)
-		// KindIndex / KindUniqueIndex → separate CREATE INDEX statements.
+			// KindIndex / KindUniqueIndex → separate CREATE INDEX statements.
 		}
 	}
 

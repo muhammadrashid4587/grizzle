@@ -98,4 +98,3 @@ func updateModelName(tableName string) string {
 func genFileName(tableName string) string {
 	return tableName + "_gen.go"
 }
-

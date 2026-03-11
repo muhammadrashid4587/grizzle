@@ -21,8 +21,8 @@ import (
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/sofired/grizzle/gen/codegen"
 	"github.com/sofired/grizzle/gen/parser"
 	"github.com/sofired/grizzle/kit"
