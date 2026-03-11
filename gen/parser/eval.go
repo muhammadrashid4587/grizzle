@@ -43,7 +43,9 @@ func evalColumn(pc ParsedColumn) (pg.ColumnDef, error) {
 
 	// Apply modifier methods.
 	for _, m := range chain.Methods {
-		applyMethod(&def, m)
+		if err := applyMethod(&def, m); err != nil {
+			return pg.ColumnDef{}, fmt.Errorf("method .%s: %w", m.Name, err)
+		}
 	}
 	return def, nil
 }
@@ -133,7 +135,8 @@ func applyBaseType(def *pg.ColumnDef, baseFn string, args []any) error {
 }
 
 // applyMethod applies a single modifier method call to a ColumnDef.
-func applyMethod(def *pg.ColumnDef, m MethodCall) {
+// The error return is reserved for future cases; unknown modifiers are skipped silently.
+func applyMethod(def *pg.ColumnDef, m MethodCall) error { //nolint:unparam
 	switch m.Name {
 	case "NotNull":
 		def.NotNull = true
@@ -236,6 +239,7 @@ func applyMethod(def *pg.ColumnDef, m MethodCall) {
 		// Unknown modifier — skip silently. This is intentional: new modifiers
 		// added to the DSL won't break the evaluator on old code.
 	}
+	return nil
 }
 
 // applyFKOption interprets a ChainResult for pg.OnDelete(action) / pg.OnUpdate(action).
