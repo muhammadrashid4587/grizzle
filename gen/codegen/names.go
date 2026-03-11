@@ -46,17 +46,6 @@ func snakeToPascal(s string) string {
 	return b.String()
 }
 
-// snakeToCamel converts "display_name" → "displayName".
-func snakeToCamel(s string) string {
-	p := snakeToPascal(s)
-	if p == "" {
-		return p
-	}
-	runes := []rune(p)
-	runes[0] = unicode.ToLower(runes[0])
-	return string(runes)
-}
-
 // singular returns a naive singular form of a plural table name:
 // "users" → "User", "realms" → "Realm", "addresses" → "Address".
 // This is intentionally simple — edge cases can be handled with a name map.

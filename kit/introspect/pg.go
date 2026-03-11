@@ -148,7 +148,7 @@ func queryColumns(ctx context.Context, pool *pgxpool.Pool, schema, table string)
 
 		col := pg.ColumnDef{
 			Name:    colName,
-			SQLType: normalizeSQLType(udtName, dataType, charMaxLen, numPrec, numScale),
+			SQLType: normalizeSQLType(udtName, charMaxLen, numPrec, numScale),
 			NotNull: isNullable != nil && *isNullable == "NO",
 		}
 		if colDefault != nil {
@@ -161,7 +161,7 @@ func queryColumns(ctx context.Context, pool *pgxpool.Pool, schema, table string)
 }
 
 // normalizeSQLType maps information_schema type info to a canonical SQL type string.
-func normalizeSQLType(udtName, dataType string, charMaxLen, numPrec, numScale *int) string {
+func normalizeSQLType(udtName string, charMaxLen, numPrec, numScale *int) string {
 	switch udtName {
 	case "uuid":
 		return "uuid"

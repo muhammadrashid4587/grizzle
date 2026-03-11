@@ -219,7 +219,7 @@ func columnDefSQL(col pg.ColumnDef) string {
 	}
 	if col.References != nil {
 		ref := col.References
-		sb.WriteString(fmt.Sprintf(" REFERENCES %s (%s)", qi(ref.Table), qi(ref.Column)))
+		fmt.Fprintf(&sb, " REFERENCES %s (%s)", qi(ref.Table), qi(ref.Column))
 		if ref.OnDelete != "" && ref.OnDelete != pg.FKActionNoAction {
 			sb.WriteString(" ON DELETE " + string(ref.OnDelete))
 		}

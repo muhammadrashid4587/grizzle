@@ -213,7 +213,7 @@ func columnDefSQLSQLite(col pg.ColumnDef) string {
 	var sb strings.Builder
 	sb.WriteString(qiSQLite(col.Name))
 	sb.WriteString(" ")
-	sb.WriteString(sqliteType(col.SQLType, col.PrimaryKey))
+	sb.WriteString(sqliteType(col.SQLType))
 
 	if col.NotNull && !col.PrimaryKey {
 		sb.WriteString(" NOT NULL")
@@ -232,7 +232,7 @@ func columnDefSQLSQLite(col pg.ColumnDef) string {
 	}
 	if col.References != nil {
 		ref := col.References
-		sb.WriteString(fmt.Sprintf(" REFERENCES %s (%s)", qiSQLite(ref.Table), qiSQLite(ref.Column)))
+		fmt.Fprintf(&sb, " REFERENCES %s (%s)", qiSQLite(ref.Table), qiSQLite(ref.Column))
 		if ref.OnDelete != "" && ref.OnDelete != pg.FKActionNoAction {
 			sb.WriteString(" ON DELETE " + string(ref.OnDelete))
 		}
@@ -296,7 +296,7 @@ func dropConstraintSQLSQLite(tableName string, c pg.Constraint) []string {
 // sqliteType maps canonical SQL type strings to SQLite type names.
 // SQLite's type affinity means arbitrary names work, but we translate the
 // common serial types which need "INTEGER" for rowid-alias behaviour.
-func sqliteType(sqlType string, isPK bool) string {
+func sqliteType(sqlType string) string {
 	lower := strings.ToLower(sqlType)
 	// serial/bigserial → INTEGER PRIMARY KEY (handled inline in columnDefSQLSQLite)
 	if lower == "serial" || lower == "bigserial" {

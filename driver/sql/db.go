@@ -121,7 +121,7 @@ func ScanAll[T any](rows *sql.Rows, err error) ([]T, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	cols, err := rows.Columns()
 	if err != nil {
@@ -149,7 +149,7 @@ func ScanOne[T any](rows *sql.Rows, err error) (T, error) {
 	if err != nil {
 		return zero, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	cols, err := rows.Columns()
 	if err != nil {
@@ -177,7 +177,7 @@ func ScanOneOpt[T any](rows *sql.Rows, err error) (*T, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	cols, err := rows.Columns()
 	if err != nil {
