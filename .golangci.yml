@@ -1,6 +1,7 @@
 version: "2"
 
 linters:
+  default: none
   enable:
     - errcheck
     - gosimple
@@ -8,19 +9,19 @@ linters:
     - ineffassign
     - staticcheck
     - unused
-    - gofmt
     - misspell
     - unconvert
     - unparam
-
-  settings:
-    gofmt:
-      simplify: true
-
-issues:
   exclusions:
     rules:
       - path: _test\.go
         linters:
           - errcheck
           - unparam
+
+formatters:
+  enable:
+    - gofmt
+  settings:
+    gofmt:
+      simplify: true
